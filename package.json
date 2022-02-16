@@ -1,0 +1,20 @@
+{
+  "name": "rcom-ppk-journal-http-server",
+  "version": "1.0.0",
+  "description": "app processed http requests and responds with ppk data",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "js",
+    "mongodb",
+    "express"
+  ],
+  "author": "Yurii Litovinskyi",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mongodb": "^2.2.33"
+  }
+}
