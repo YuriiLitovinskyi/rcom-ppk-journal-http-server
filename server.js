@@ -29,6 +29,7 @@ app.post('/rcom/ppkinfo', [rules], async (req, res) => {
     //console.log(req.body);  
   
     // cors  
+    // auth?
     // mongo disconnect?
 
     const errors = validationResult(req);
@@ -38,13 +39,13 @@ app.post('/rcom/ppkinfo', [rules], async (req, res) => {
 
     let comp = configData.companies.filter(c => c.companyId === companyId);
     if(comp.length === 0){
-        return res.status(400).json({ success: false, errors: 'companyId does not match or does not exists in config file' });
+        return res.status(500).json({ success: false, errors: 'companyId does not match or does not exists in config file' });
     } else if(comp.length > 1){
        
-        return res.status(400).json({ success: false, errors: 'Error in config.json file! Company ID must be unique!' });
+        return res.status(500).json({ success: false, errors: 'Error in config.json file! Company ID must be unique!' });
     } else {       
         if(!comp[0].ppk.includes(ppk_num)){          
-            return res.status(400).json({ success: false, errors: `Device ${ppk_num} not found in config file for your company!` });
+            return res.status(500).json({ success: false, errors: `Device ${ppk_num} not found in config file for your company!` });
         };
 
         try {
@@ -57,7 +58,7 @@ app.post('/rcom/ppkinfo', [rules], async (req, res) => {
             });
     
     
-            res.json({ success: true, data: ppkData });
+            res.status(200).json({ success: true, data: ppkData });
             
         } catch (err) {
             console.log(`Error! ${err.message}`);
@@ -74,12 +75,17 @@ function findPpkData(ppk_num, start_time, end_time){
             try {
                 await collection.find({ 
                     ppk_num, 
-                    date_time: {$gte: new Date(start_time), $lt: new Date(end_time)}}, {_id: 0}).toArray(async (err, data) => {
-                    if(err) reject(err);
-    
-                    console.log(`Processing request for ppk ${ppk_num} ...`);
-                    resolve(data);
-                });                
+                    date_time: {
+                        $gte: new Date(start_time), 
+                        $lt: new Date(end_time)
+                    }}, 
+                    {_id: 0})
+                    .toArray(async (err, data) => {
+                        if(err) reject(err);
+        
+                        console.log(`Processing request for ppk ${ppk_num} ...`);
+                        resolve(data);
+                    });                
             } catch (err) {
                 reject(err);
             };
