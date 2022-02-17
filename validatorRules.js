@@ -1,7 +1,5 @@
 const { body } = require('express-validator');
 
-const companyId = 123456;
-
 const rules = [
     body('companyId')
         .exists()
@@ -13,9 +11,7 @@ const rules = [
         .isString()
         .withMessage('companyId must be a number')     
         .isNumeric()
-        .withMessage('companyId must be numeric')
-        .isIn([companyId])
-        .withMessage('companyId does not match'),
+        .withMessage('companyId must be numeric'),
     body('ppk_num')
         .exists()
         .withMessage('ppk_num is required')
@@ -32,23 +28,17 @@ const rules = [
         .withMessage('start_time is required')
         .not()
         .isEmpty()
-        .withMessage('start_time should not be empty')
-        .not()
-        .isString()
-        .withMessage('start_time must be a number')     
-        .isNumeric()
-        .withMessage('start_time must be numeric'),
+        .withMessage('start_time should not be empty')        
+        .isISO8601()
+        .withMessage('start_time must be ISODate'),
     body('end_time')
         .exists()
         .withMessage('end_time is required')
         .not()
         .isEmpty()
         .withMessage('end_time should not be empty') 
-        .not()
-        .isString()
-        .withMessage('end_time must be a number')        
-        .isNumeric()
-        .withMessage('end_time must be numeric'),
+        .isISO8601()
+        .withMessage('end_time must be ISODate'),
 ];
 
 module.exports = rules;

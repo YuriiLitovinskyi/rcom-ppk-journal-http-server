@@ -1,0 +1,15 @@
+{
+    "serverPort": 4522,
+    "mongoHost": "localhost",
+    "mongoPort": 27017,
+    "companies": [
+        {
+            "companyId": 123456,
+            "ppk": [39, 111, 100]
+        },
+        {
+            "companyId": 111111,
+            "ppk": [25, 321, 32, 88]
+        }
+    ]
+}
