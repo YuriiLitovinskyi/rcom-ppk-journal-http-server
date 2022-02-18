@@ -14,8 +14,13 @@
   "author": "Yurii Litovinskyi",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^4.0.0",
     "express": "^4.17.2",
+    "express-rate-limit": "^6.2.1",
     "express-validator": "^6.14.0",
-    "mongodb": "^2.2.33"
+    "helmet": "^5.0.2",
+    "mongodb": "^2.2.33",
+    "node.date-time": "^1.2.2",
+    "xss-clean": "^0.1.1"
   }
 }
