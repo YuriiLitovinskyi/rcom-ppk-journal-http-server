@@ -12,7 +12,7 @@ const connectDb = require('./db');
 const rules = require('./validatorRules');
 const { convertIdMessage, convertLineMessage, enabledStatus } = require('./messages');
 
-
+const version = '1.0.0';
 let db;
 let configData;
 
@@ -54,8 +54,8 @@ app.use((err, req, res, next) => {
     next();
 });
 
-app.get('/rcom/test', (req, res) => {
-    res.json({ success: true });   
+app.get('/rcom/ppkinfo/version', (req, res) => {
+    res.json({ success: true, version });   
 });
 
 app.post('/rcom/ppkinfo', [rules], async (req, res) => {
