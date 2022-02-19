@@ -54,12 +54,20 @@ app.use((err, req, res, next) => {
     next();
 });
 
-app.get('/rcom/ppkinfo/version', (req, res) => {
+app.get('/api/ppkinfo/version', (req, res) => {
     res.json({ success: true, version });   
 });
 
-app.post('/rcom/ppkinfo', [rules], async (req, res) => {
-    const { ppk_num, companyId, start_time, end_time } = req.body;
+app.post('/api/ppkinfo/:ppk_num', [rules], async (req, res) => {
+    const ppk_num = Number(req.params.ppk_num);    
+    const { companyId, start_time, end_time } = req.body;
+
+    if(isNaN(ppk_num) || ppk_num <= 0){
+        return res.status(400).json({ 
+            success: false, 
+            errors: 'Param ppk_num must be numeric and greater then 0' 
+        });
+    };
     
     const errors = validationResult(req);
     if(!errors.isEmpty()) {        
@@ -68,9 +76,9 @@ app.post('/rcom/ppkinfo', [rules], async (req, res) => {
 
     let comp = configData.companies.filter(c => c.companyId === companyId);
     if(comp.length === 0){
-        return res.status(500).json({ 
+        return res.status(400).json({ 
             success: false, 
-            errors: 'companyId does not match or does not exist in config file' 
+            errors: 'Value companyId does not match or does not exist in config.json file!' 
         });
     } else if(comp.length > 1){       
         return res.status(500).json({ 
@@ -79,9 +87,9 @@ app.post('/rcom/ppkinfo', [rules], async (req, res) => {
         });
     } else {       
         if(!comp[0].ppk.includes(ppk_num)){          
-            return res.status(500).json({ 
+            return res.status(400).json({ 
                 success: false, 
-                errors: `Device ${ppk_num} not found in config file for your company!` 
+                errors: `Device ${ppk_num} not found in config.json file for your company!` 
             });
         };
 
