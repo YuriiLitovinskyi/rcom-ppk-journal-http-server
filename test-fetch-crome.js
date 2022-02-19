@@ -3,12 +3,12 @@
     const requestOptions = {
         method: 'GET',
         redirect: 'follow'
-    };    
-
-    fetch("http://localhost:4522/rcom/test", requestOptions)
+      };
+      
+      fetch("http://localhost:4522/api/ppkinfo/version", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
-        .catch(error => console.log('error', error)); 
+        .catch(error => console.log('error', error));
 }
 
 // POST
@@ -18,8 +18,7 @@
 
     const raw = JSON.stringify({
         "companyId": 123456,
-        "ppk_num": 39,
-        "start_time": "2022-01-17T05:37:08.397Z",
+        "start_time": "2022-02-17T05:37:08.397Z",
         "end_time": "2022-02-17T08:37:08.397Z"
     });
 
@@ -30,7 +29,7 @@
         redirect: 'follow'
     };
 
-    fetch("http://localhost:4522/rcom/ppkinfo", requestOptions)
+    fetch("http://localhost:4522/api/ppkinfo/39", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -39,7 +38,7 @@
 // GET XML
 {
     let req=new XMLHttpRequest();  
-    req.open("GET",'http://localhost:4522/rcom/test',true);
+    req.open("GET",'http://localhost:4522/api/ppkinfo/version',true);
     req.setRequestHeader('Content-Type', 'application/json');
     req.setRequestHeader('Access-Control-Allow-Origin', '*');   
     req.send();
