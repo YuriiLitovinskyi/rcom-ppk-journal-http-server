@@ -5,6 +5,7 @@ const xss = require('xss-clean');
 const rateLimit = require('express-rate-limit');
 const format = require("node.date-time");
 const chalk = require('chalk');
+const cors = require('cors');
 
 const readConfigFile = require('./readConfigFile');
 const sleep = require('./sleep');
@@ -27,15 +28,7 @@ app.use(helmet());
 app.use(xss());
 
 // CORS
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
-    );
-    res.setHeader('Access-Control-Allow-Methods', 'POST, GET');
-    next();
-});
+app.use(cors());
 
 // Rate limiting
 const limiter = rateLimit({
